@@ -333,11 +333,21 @@ function Dashboard() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             )}
+            
             <button 
               onClick={() => setShowSendModal(true)}
               className="px-4 py-2 bg-red-700 text-white rounded-xl text-sm font-medium hover:bg-red-800 flex items-center gap-2"
             >
               ✉️ <span className="hidden md:inline">Send SMS</span>
+            </button>
+
+            {/* ========== NEW REFRESH BUTTON ========== */}
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl text-sm font-medium flex items-center gap-2 transition-colors"
+              title="Refresh page"
+            >
+              🔄 <span className="hidden md:inline">Refresh</span>
             </button>
           </div>
         </div>
