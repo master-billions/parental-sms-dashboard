@@ -89,8 +89,8 @@ function LoginPage() {
           <div className="w-16 h-16 bg-red-700 rounded-2xl mx-auto flex items-center justify-center mb-4">
             <span className="text-white text-4xl">🛡️</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Parental SMS</h1>
-          <p className="text-gray-400 mt-2">Parent Dashboard Login</p>
+          <h1 className="text-3xl font-bold text-white">HELLO MASTER👹</h1>
+          <p className="text-gray-400 mt-2">ENTER DASHBOARD</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -101,7 +101,7 @@ function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-[#111111] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-red-600"
-              placeholder="parent@email.com"
+              placeholder=""
               required
             />
           </div>
@@ -133,9 +133,7 @@ function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Contact admin to create an account
-        </p>
+        
       </div>
     </div>
   )
@@ -268,8 +266,8 @@ function Dashboard() {
               <span className="text-white text-2xl">🛡️</span>
             </div>
             <div>
-              <h1 className="font-bold text-xl">Parental SMS</h1>
-              <p className="text-xs text-gray-400">Parent Dashboard</p>
+              <h1 className="font-bold text-xl">Master 👹👺 </h1>
+              <p className="text-xs text-gray-400">Device Dashboard</p>
             </div>
           </div>
 
