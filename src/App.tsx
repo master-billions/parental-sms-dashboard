@@ -22,20 +22,34 @@ interface Device {
 function RedDemonBackground() {
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-[#0f0f0f]">
-      <div className="absolute bottom-[-80px] right-[-100px] w-[500px] h-[500px] opacity-15 md:opacity-20">
+      {/* Red Demon Face Background */}
+      <div className="absolute bottom-[-100px] right-[-120px] w-[600px] h-[600px] opacity-20">
         <svg viewBox="0 0 200 200" className="w-full h-full">
+          {/* Demon Head */}
           <ellipse cx="100" cy="105" rx="65" ry="70" fill="#b91c1c" />
+         
+          {/* Horns */}
           <path d="M55 55 Q35 25 50 5" fill="none" stroke="#7f1d1d" strokeWidth="14" strokeLinecap="round" />
           <path d="M145 55 Q165 25 150 5" fill="none" stroke="#7f1d1d" strokeWidth="14" strokeLinecap="round" />
+         
+          {/* Left Eye */}
           <ellipse cx="68" cy="90" rx="16" ry="20" fill="#450a0a" />
           <circle cx="68" cy="90" r="9" fill="#ef4444" />
           <circle cx="68" cy="90" r="4" fill="#ffffff" />
+         
+          {/* Right Eye */}
           <ellipse cx="132" cy="90" rx="16" ry="20" fill="#450a0a" />
           <circle cx="132" cy="90" r="9" fill="#ef4444" />
           <circle cx="132" cy="90" r="4" fill="#ffffff" />
+         
+          {/* Evil Eyebrows */}
           <path d="M52 72 Q68 62 84 72" fill="none" stroke="#450a0a" strokeWidth="4" strokeLinecap="round" />
           <path d="M116 72 Q132 62 148 72" fill="none" stroke="#450a0a" strokeWidth="4" strokeLinecap="round" />
+         
+          {/* Mouth */}
           <path d="M75 125 Q100 145 125 125" fill="none" stroke="#450a0a" strokeWidth="5" strokeLinecap="round" />
+         
+          {/* Nose */}
           <path d="M95 105 Q100 115 105 105" fill="none" stroke="#450a0a" strokeWidth="3" />
         </svg>
       </div>
@@ -54,23 +68,27 @@ function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) setError(error.message)
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    if (error) {
+      setError(error.message)
+    }
     setLoading(false)
   }
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 relative">
       <RedDemonBackground />
-      
-      <div className="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-md border border-gray-800 shadow-2xl">
+     
+      <div className="bg-[#1a1a1a] p-8 rounded-2xl w-full max-w-md border border-gray-800">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-red-700 rounded-2xl mx-auto flex items-center justify-center mb-5 shadow-lg">
-            <span className="text-white text-5xl">🛡️</span>
+          <div className="w-16 h-16 bg-red-700 rounded-2xl mx-auto flex items-center justify-center mb-4">
+            <span className="text-white text-4xl">🛡️</span>
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">HELLO MASTER👹</h1>
-          <p className="text-gray-400 mt-2 text-sm">ENTER DASHBOARD</p>
+          <h1 className="text-3xl font-bold text-white">HELLO MASTER👹</h1>
+          <p className="text-gray-400 mt-2">ENTER DASHBOARD</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -80,38 +98,36 @@ function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3.5 bg-[#111111] border border-gray-700 rounded-2xl text-white focus:outline-none focus:border-red-600 text-base"
-              placeholder="you@example.com"
+              className="w-full px-4 py-3 bg-[#111111] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-red-600"
+              placeholder=""
               required
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3.5 bg-[#111111] border border-gray-700 rounded-2xl text-white focus:outline-none focus:border-red-600 text-base"
+              className="w-full px-4 py-3 bg-[#111111] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-red-600"
               placeholder="••••••••"
               required
             />
           </div>
-
           {error && (
-            <div className="text-red-400 text-sm bg-red-950 p-3.5 rounded-2xl border border-red-900">
+            <div className="text-red-400 text-sm bg-red-950 p-3 rounded-xl border border-red-900">
               {error}
             </div>
           )}
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-red-700 text-white rounded-2xl font-semibold text-base hover:bg-red-800 active:bg-red-900 transition-all disabled:bg-red-900 shadow-lg"
+            className="w-full py-3 bg-red-700 text-white rounded-xl font-medium hover:bg-red-800 disabled:bg-red-900"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+       
       </div>
     </div>
   )
@@ -125,14 +141,12 @@ function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [userEmail, setUserEmail] = useState('')
-
   const [showSendModal, setShowSendModal] = useState(false)
   const [selectedDevice, setSelectedDevice] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [smsBody, setSmsBody] = useState('')
   const [sending, setSending] = useState(false)
   const [sendSuccess, setSendSuccess] = useState(false)
-
   const [showDeviceMessagesModal, setShowDeviceMessagesModal] = useState(false)
   const [selectedDeviceForModal, setSelectedDeviceForModal] = useState('')
   const [deviceMessages, setDeviceMessages] = useState<Message[]>([])
@@ -157,6 +171,7 @@ function Dashboard() {
         setMessages(data)
 
         const deviceMap = new Map<string, { count: number; lastSeen: string }>()
+
         data.forEach((msg: Message) => {
           if (!deviceMap.has(msg.device_id)) {
             deviceMap.set(msg.device_id, { count: 0, lastSeen: msg.timestamp })
@@ -171,6 +186,7 @@ function Dashboard() {
           messageCount: stats.count,
           lastSeen: stats.lastSeen
         }))
+
         setDevices(deviceList)
       }
       setLoading(false)
@@ -179,7 +195,7 @@ function Dashboard() {
     fetchData()
   }, [])
 
-  const sortedMessages = [...messages].sort((a, b) => 
+  const sortedMessages = [...messages].sort((a, b) =>
     new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
   )
 
@@ -192,7 +208,7 @@ function Dashboard() {
     const filtered = messages
       .filter(msg => msg.device_id === deviceId)
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    
+   
     setDeviceMessages(filtered)
     setSelectedDeviceForModal(deviceId)
     setShowDeviceMessagesModal(true)
@@ -200,6 +216,7 @@ function Dashboard() {
 
   const handleSendSMS = async () => {
     if (!smsBody.trim()) return
+
     setSending(true)
 
     const targetNumber = phoneNumber.trim() || selectedDevice
@@ -232,121 +249,121 @@ function Dashboard() {
     await supabase.auth.signOut()
   }
 
-  // ==================== BOTTOM NAV (Android Style) ====================
-  const BottomNav = () => (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-40 safe-area-bottom">
-      <div className="flex items-center justify-around h-16 px-2">
-        <button
-          onClick={() => setActiveTab('messages')}
-          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${activeTab === 'messages' ? 'text-red-500' : 'text-gray-400'}`}
-        >
-          <span className="text-2xl mb-0.5">💬</span>
-          <span className="text-[10px] font-medium">Messages</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('devices')}
-          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${activeTab === 'devices' ? 'text-red-500' : 'text-gray-400'}`}
-        >
-          <span className="text-2xl mb-0.5">📱</span>
-          <span className="text-[10px] font-medium">Devices</span>
-        </button>
-      </div>
-    </div>
-  )
-
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-[#0f0f0f] text-white overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-[#0f0f0f] text-white">
       <RedDemonBackground />
 
-      {/* ==================== SIDEBAR (Desktop Only) ==================== */}
-      <div className="hidden md:flex md:w-72 bg-[#1a1a1a] border-r border-gray-800 flex-col">
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-11 h-11 bg-red-700 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-3xl">🛡️</span>
+      {/* ========== MOBILE TOP HEADER (Android-style App Bar) ========== */}
+      <div className="md:hidden bg-[#1a1a1a] border-b border-gray-800 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-red-700 rounded-xl flex items-center justify-center">
+            <span className="text-white text-xl">🛡️</span>
+          </div>
+          <div>
+            <h1 className="font-bold text-lg">Master 👹</h1>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-[#111111] px-3 py-1.5 rounded-2xl border border-gray-800">
+            <div className="w-6 h-6 bg-gray-700 rounded-full flex-shrink-0"></div>
+            <p className="text-xs text-gray-400 truncate max-w-[90px]">{userEmail}</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 text-red-400 text-sm font-medium border border-red-900/70 rounded-2xl hover:bg-red-950 active:bg-red-900 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
+      {/* ========== DESKTOP SIDEBAR (unchanged) ========== */}
+      <div className="hidden md:block md:w-72 bg-[#1a1a1a] border-b md:border-r border-gray-800">
+        <div className="p-4 md:p-6">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-red-700 rounded-xl flex items-center justify-center">
+              <span className="text-white text-2xl">🛡️</span>
             </div>
             <div>
-              <h1 className="font-bold text-2xl tracking-tight">Master 👹👺</h1>
-              <p className="text-xs text-gray-400 -mt-1">Device Dashboard</p>
+              <h1 className="font-bold text-xl">Master 👹👺 </h1>
+              <p className="text-xs text-gray-400">Device Dashboard</p>
             </div>
           </div>
 
-          <nav className="space-y-1.5">
+          <nav className="space-y-1">
             <button
               onClick={() => setActiveTab('messages')}
-              className={`w-full flex items-center gap-3 px-5 py-3.5 rounded-2xl text-left transition-all text-base ${activeTab === 'messages' ? 'bg-red-900/60 text-red-400 font-semibold' : 'hover:bg-[#111111] text-gray-300'}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
+                activeTab === 'messages' ? 'bg-red-900/50 text-red-400 font-medium' : 'hover:bg-[#111111] text-gray-300'
+              }`}
             >
-              <span className="text-xl">💬</span>
+              <span>💬</span>
               <span>All Messages ({messages.length})</span>
             </button>
-
             <button
               onClick={() => setActiveTab('devices')}
-              className={`w-full flex items-center gap-3 px-5 py-3.5 rounded-2xl text-left transition-all text-base ${activeTab === 'devices' ? 'bg-red-900/60 text-red-400 font-semibold' : 'hover:bg-[#111111] text-gray-300'}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
+                activeTab === 'devices' ? 'bg-red-900/50 text-red-400 font-medium' : 'hover:bg-[#111111] text-gray-300'
+              }`}
             >
-              <span className="text-xl">📱</span>
+              <span>📱</span>
               <span>Devices ({devices.length})</span>
             </button>
           </nav>
-        </div>
 
-        <div className="mt-auto p-6 border-t border-gray-800">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 bg-gray-700 rounded-full flex-shrink-0"></div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium truncate">{userEmail}</p>
+          <div className="mt-8 pt-6 border-t border-gray-800">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gray-700 rounded-full"></div>
+                <div>
+                  <p className="text-sm font-medium truncate max-w-[140px]">{userEmail}</p>
+                </div>
               </div>
+              <button
+                onClick={handleLogout}
+                className="text-red-400 text-sm hover:text-red-500"
+              >
+                Logout
+              </button>
             </div>
-            <button 
-              onClick={handleLogout}
-              className="text-red-400 text-sm hover:text-red-500 font-medium px-3 py-1"
-            >
-              Logout
-            </button>
           </div>
         </div>
       </div>
 
-      {/* ==================== MAIN CONTENT ==================== */}
-      <div className="flex-1 flex flex-col min-h-0">
-        {/* Top Header */}
-        <div className="h-14 md:h-16 bg-[#1a1a1a] border-b border-gray-800 px-4 md:px-8 flex items-center justify-between z-30 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="md:hidden w-9 h-9 bg-red-700 rounded-xl flex items-center justify-center">
-              <span className="text-white text-xl">🛡️</span>
-            </div>
-            <div>
-              <h2 className="text-lg md:text-xl font-semibold tracking-tight">
-                {activeTab === 'messages' ? 'All Messages' : 'Child Devices'}
-              </h2>
-            </div>
+      {/* ========== MAIN CONTENT ========== */}
+      <div className="flex-1 flex flex-col">
+        {/* Content Header */}
+        <div className="h-16 bg-[#1a1a1a] border-b border-gray-800 px-4 md:px-8 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">
+              {activeTab === 'messages' ? 'All Messages' : 'Child Devices'}
+            </h2>
           </div>
-
           <div className="flex items-center gap-2 md:gap-3">
             {activeTab === 'messages' && (
               <input
                 type="text"
-                placeholder="Search messages..."
-                className="px-4 py-2 bg-[#111111] border border-gray-700 rounded-2xl text-sm w-40 md:w-72 text-white placeholder:text-gray-500 focus:outline-none focus:border-red-600"
+                placeholder="Search..."
+                className="px-4 py-2.5 bg-[#111111] border border-gray-700 rounded-2xl text-sm w-32 md:w-72 text-white focus:outline-none focus:border-red-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             )}
-            
-            {/* Desktop Send Button */}
-            <button 
+           
+            {/* Desktop Send Button (hidden on mobile) */}
+            <button
               onClick={() => setShowSendModal(true)}
-              className="hidden md:flex px-5 py-2.5 bg-red-700 text-white rounded-2xl text-sm font-semibold hover:bg-red-800 active:bg-red-900 items-center gap-2 shadow-lg transition-all"
+              className="hidden md:flex px-4 py-2.5 bg-red-700 text-white rounded-2xl text-sm font-medium hover:bg-red-800 items-center gap-2 active:bg-red-800"
             >
-              ✉️ Send SMS
+              ✉️ <span>Send SMS</span>
             </button>
 
-            <button 
+            {/* Refresh Button */}
+            <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white rounded-2xl text-sm font-medium flex items-center gap-2 transition-colors"
-              title="Refresh"
+              className="px-3 py-2.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white rounded-2xl text-sm font-medium flex items-center gap-2 transition-colors"
+              title="Refresh page"
             >
               🔄 <span className="hidden md:inline">Refresh</span>
             </button>
@@ -354,31 +371,31 @@ function Dashboard() {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-4 md:p-8 overflow-auto pb-20 md:pb-8"> {/* Extra bottom padding for mobile nav */}
+        <div className="flex-1 p-3 md:p-8 overflow-auto pb-24 md:pb-8">
           {activeTab === 'messages' ? (
             loading ? (
               <div className="flex justify-center items-center h-64">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
               </div>
             ) : filteredMessages.length > 0 ? (
-              <div className="space-y-4 max-w-4xl mx-auto">
+              <div className="space-y-3 md:space-y-4">
                 {filteredMessages.map((msg) => (
-                  <div key={msg.id} className="bg-[#1a1a1a] p-5 md:p-6 rounded-3xl border border-gray-800 shadow-sm">
+                  <div key={msg.id} className="bg-[#1a1a1a] p-5 md:p-6 rounded-3xl border border-gray-800 active:bg-[#222222] transition-colors">
                     <div className="flex flex-col md:flex-row md:justify-between gap-2 mb-3">
-                      <div className="font-semibold text-base break-all">{msg.from} → {msg.to}</div>
-                      <div className="text-xs text-right flex-shrink-0">
-                        <span className="px-3 py-1 bg-gray-800 rounded-full text-gray-300">{msg.type}</span>
-                        <div className="text-gray-500 mt-1.5">{new Date(msg.timestamp).toLocaleString()}</div>
+                      <div className="font-semibold break-all text-[15px]">{msg.from} → {msg.to}</div>
+                      <div className="text-xs text-right">
+                        <span className="px-3 py-1 bg-gray-800 rounded-full">{msg.type}</span>
+                        <div className="text-gray-500 mt-1">{new Date(msg.timestamp).toLocaleString()}</div>
                       </div>
                     </div>
-                    <p className="text-gray-300 text-[15px] leading-relaxed break-words">{msg.body}</p>
+                    <p className="text-gray-300 break-words leading-relaxed">{msg.body}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
-                <div className="text-7xl mb-6">📭</div>
-                <h3 className="text-2xl font-semibold">No messages found</h3>
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">📭</div>
+                <h3 className="text-xl font-semibold">No messages found</h3>
               </div>
             )
           ) : (
@@ -387,31 +404,29 @@ function Dashboard() {
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
               </div>
             ) : devices.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {devices.map((device, index) => (
-                  <div key={index} className="bg-[#1a1a1a] p-5 md:p-6 rounded-3xl border border-gray-800 shadow-sm hover:border-gray-700 transition-colors">
-                    <div className="flex items-center gap-4 mb-5">
-                      <div className="w-12 h-12 bg-red-900/60 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">📱</div>
+                  <div key={index} className="bg-[#1a1a1a] p-5 md:p-6 rounded-3xl border border-gray-800 active:bg-[#222222] transition-colors">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-red-900/50 rounded-2xl flex items-center justify-center text-3xl">📱</div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-lg">Child Device</h3>
-                        <p className="text-xs text-gray-500 font-mono truncate mt-0.5">{device.device_id}</p>
+                        <h3 className="font-semibold">Child Device</h3>
+                        <p className="text-xs text-gray-500 font-mono truncate">{device.device_id}</p>
                       </div>
                     </div>
-
-                    <div className="space-y-3 text-sm mb-6">
-                      <div className="flex justify-between items-center">
+                    <div className="space-y-2.5 text-sm mb-5">
+                      <div className="flex justify-between">
                         <span className="text-gray-400">Messages</span>
-                        <span className="font-semibold text-lg">{device.messageCount}</span>
+                        <span className="font-semibold">{device.messageCount}</span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between">
                         <span className="text-gray-400">Last Active</span>
-                        <span className="font-medium">{new Date(device.lastSeen).toLocaleDateString()}</span>
+                        <span>{new Date(device.lastSeen).toLocaleDateString()}</span>
                       </div>
                     </div>
-
-                    <button 
+                    <button
                       onClick={() => openDeviceMessages(device.device_id)}
-                      className="w-full py-3.5 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white rounded-2xl text-sm font-semibold transition-all shadow-lg"
+                      className="w-full py-3.5 bg-red-700 text-white rounded-2xl text-sm font-medium hover:bg-red-800 active:bg-red-800 transition-colors"
                     >
                       View Device SMS
                     </button>
@@ -419,48 +434,73 @@ function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
-                <div className="text-7xl mb-6">📱</div>
-                <h3 className="text-2xl font-semibold">No devices found</h3>
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">📱</div>
+                <h3 className="text-xl font-semibold">No devices found</h3>
               </div>
             )
           )}
         </div>
       </div>
 
-      {/* ==================== FLOATING ACTION BUTTON (Mobile) ==================== */}
-      <button 
+      {/* ========== MOBILE BOTTOM NAVIGATION ========== */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50">
+        <div className="flex items-center justify-around py-1.5">
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`flex flex-col items-center px-8 py-2 rounded-2xl transition-all min-w-[80px] ${
+              activeTab === 'messages' 
+                ? 'text-red-400' 
+                : 'text-gray-400 hover:text-gray-300'
+            }`}
+          >
+            <span className="text-2xl mb-0.5">💬</span>
+            <span className="text-xs font-semibold tracking-wide">Messages</span>
+            <span className="text-[10px] text-gray-500 -mt-0.5">({messages.length})</span>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('devices')}
+            className={`flex flex-col items-center px-8 py-2 rounded-2xl transition-all min-w-[80px] ${
+              activeTab === 'devices' 
+                ? 'text-red-400' 
+                : 'text-gray-400 hover:text-gray-300'
+            }`}
+          >
+            <span className="text-2xl mb-0.5">📱</span>
+            <span className="text-xs font-semibold tracking-wide">Devices</span>
+            <span className="text-[10px] text-gray-500 -mt-0.5">({devices.length})</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ========== FLOATING ACTION BUTTON (Send SMS) - Mobile only ========== */}
+      <button
         onClick={() => setShowSendModal(true)}
-        className="md:hidden fixed bottom-20 right-5 w-14 h-14 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white rounded-full shadow-2xl flex items-center justify-center z-50 transition-all active:scale-95"
+        className="md:hidden fixed bottom-[76px] right-5 w-14 h-14 bg-red-700 text-white rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(185,28,28,0.35)] z-50 active:scale-95 active:bg-red-800 transition-all"
+        aria-label="Send SMS"
       >
         <span className="text-3xl">✉️</span>
       </button>
 
-      {/* ==================== BOTTOM NAV (Mobile) ==================== */}
-      <BottomNav />
-
-      {/* ==================== SEND SMS MODAL ==================== */}
+      {/* Send SMS Modal */}
       {showSendModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-end md:items-center justify-center z-[60] p-0 md:p-4">
-          <div className="bg-[#1a1a1a] w-full md:w-full md:max-w-md rounded-t-3xl md:rounded-3xl p-6 md:p-8 border-t md:border border-gray-700 max-h-[92vh] overflow-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Send SMS to Child</h2>
-              <button onClick={() => setShowSendModal(false)} className="text-3xl text-gray-400 hover:text-white">×</button>
-            </div>
-
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a1a1a] rounded-3xl w-full max-w-md p-6 md:p-8 border border-gray-700">
+            <h2 className="text-2xl font-bold mb-6">Send SMS to Child</h2>
             {sendSuccess ? (
-              <div className="text-center py-10">
-                <div className="text-7xl mb-5">✅</div>
-                <h3 className="text-2xl font-semibold text-green-400">Command Sent!</h3>
+              <div className="text-center py-8">
+                <div className="text-6xl mb-4">✅</div>
+                <h3 className="text-xl font-semibold text-green-400">Command Sent!</h3>
               </div>
             ) : (
               <>
-                <div className="mb-5">
+                <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-300 mb-2">Choose Device</label>
                   <select 
                     value={selectedDevice} 
                     onChange={(e) => setSelectedDevice(e.target.value)} 
-                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 text-white text-base"
+                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 text-white focus:outline-none focus:border-red-600"
                   >
                     <option value="">Select a device...</option>
                     {devices.map((device, index) => (
@@ -470,40 +510,37 @@ function Dashboard() {
                     ))}
                   </select>
                 </div>
-
-                <div className="mb-5">
+                <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-300 mb-2">Or enter phone number</label>
                   <input 
                     type="text" 
                     placeholder="+234XXXXXXXXXX" 
                     value={phoneNumber} 
                     onChange={(e) => setPhoneNumber(e.target.value)} 
-                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 text-white text-base" 
+                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 text-white focus:outline-none focus:border-red-600" 
                   />
                 </div>
-
-                <div className="mb-7">
+                <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
                   <textarea 
                     placeholder="Type your message..." 
                     value={smsBody} 
                     onChange={(e) => setSmsBody(e.target.value)} 
-                    rows={5} 
-                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 resize-y min-h-[120px] text-white text-base" 
+                    rows={4} 
+                    className="w-full bg-[#111111] border border-gray-700 rounded-2xl px-4 py-3.5 resize-none text-white focus:outline-none focus:border-red-600" 
                   />
                 </div>
-
                 <div className="flex gap-3">
                   <button 
                     onClick={() => setShowSendModal(false)} 
-                    className="flex-1 py-3.5 border border-gray-700 rounded-2xl font-semibold text-base active:bg-gray-800 transition-colors"
+                    className="flex-1 py-3.5 border border-gray-700 rounded-2xl font-medium active:bg-gray-900 transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     onClick={handleSendSMS} 
                     disabled={sending || !smsBody.trim()} 
-                    className="flex-1 py-3.5 bg-red-700 text-white rounded-2xl font-semibold text-base disabled:bg-red-900 active:bg-red-800 transition-all"
+                    className="flex-1 py-3.5 bg-red-700 text-white rounded-2xl font-medium disabled:bg-red-900 active:bg-red-800 transition-colors"
                   >
                     {sending ? 'Sending...' : 'Send SMS'}
                   </button>
@@ -514,24 +551,23 @@ function Dashboard() {
         </div>
       )}
 
-      {/* ==================== DEVICE MESSAGES MODAL ==================== */}
+      {/* Device Messages Modal */}
       {showDeviceMessagesModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-end md:items-center justify-center z-[60] p-0 md:p-4">
-          <div className="bg-[#1a1a1a] w-full md:w-full md:max-w-2xl rounded-t-3xl md:rounded-3xl flex flex-col border-t md:border border-gray-700 max-h-[92vh]">
-            <div className="p-6 border-b border-gray-700 flex justify-between items-start">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a1a1a] rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col border border-gray-700">
+            <div className="p-6 border-b border-gray-700 flex justify-between items-center">
               <div>
                 <h2 className="text-2xl font-bold">Device Messages</h2>
-                <p className="text-sm text-gray-500 font-mono mt-1">{selectedDeviceForModal}</p>
+                <p className="text-sm text-gray-500 font-mono mt-0.5">{selectedDeviceForModal}</p>
               </div>
               <button 
                 onClick={() => setShowDeviceMessagesModal(false)} 
-                className="text-4xl leading-none text-gray-400 hover:text-white -mt-1"
+                className="text-4xl leading-none text-gray-400 hover:text-white active:text-gray-500 w-10 h-10 flex items-center justify-center"
               >
-                ×
+                &times;
               </button>
             </div>
-
-            <div className="flex-1 overflow-auto p-6 space-y-4">
+            <div className="flex-1 overflow-auto p-6 space-y-3">
               {deviceMessages.length > 0 ? (
                 deviceMessages.map((msg) => (
                   <div key={msg.id} className="bg-[#111111] p-4 rounded-2xl border border-gray-800">
@@ -539,21 +575,20 @@ function Dashboard() {
                       <span className="font-medium">{msg.from} → {msg.to}</span>
                       <span className="text-gray-500 text-xs">{new Date(msg.timestamp).toLocaleString()}</span>
                     </div>
-                    <p className="text-gray-300 text-[15px] break-words leading-relaxed">{msg.body}</p>
+                    <p className="text-gray-300 break-words leading-relaxed">{msg.body}</p>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-16">
-                  <div className="text-6xl mb-5">📭</div>
+                <div className="text-center py-12">
+                  <div className="text-5xl mb-4">📭</div>
                   <p className="text-gray-400">No messages from this device</p>
                 </div>
               )}
             </div>
-
             <div className="p-6 border-t border-gray-700">
-              <button 
+              <button
                 onClick={() => setShowDeviceMessagesModal(false)}
-                className="w-full py-3.5 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-2xl font-semibold text-base transition-colors"
+                className="w-full py-3.5 bg-gray-800 rounded-2xl font-medium hover:bg-gray-700 active:bg-gray-600 transition-colors"
               >
                 Close
               </button>
@@ -565,7 +600,7 @@ function Dashboard() {
   )
 }
 
-// ==================== MAIN APP ====================
+// ==================== MAIN APP WITH ROUTING ====================
 function App() {
   const [session, setSession] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -586,7 +621,7 @@ function App() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0f0f0f]">
-        <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-red-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     )
   }
@@ -594,8 +629,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={session ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!session ? <LoginPage /> : <Navigate to="/" />} />
+        <Route
+          path="/"
+          element={session ? <Dashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/login"
+          element={!session ? <LoginPage /> : <Navigate to="/" />}
+        />
       </Routes>
     </Router>
   )
